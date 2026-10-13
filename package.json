@@ -1,0 +1,42 @@
+{
+  "name": "hold-to-confirm-vanilla",
+  "version": "0.1.0",
+  "description": "Dependency-free hold-to-confirm buttons for vanilla JavaScript, D3, and Svelte.",
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./styles.css": "./src/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "demo": "node scripts/serve-demo.js"
+  },
+  "keywords": [
+    "hold-to-confirm",
+    "long-press",
+    "button",
+    "svelte",
+    "d3",
+    "vanilla-javascript"
+  ],
+  "author": "Angie Hjort",
+  "company": "Encharted Media AB",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

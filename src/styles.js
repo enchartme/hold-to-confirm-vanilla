@@ -1,0 +1,86 @@
+export const holdButtonStyles = `
+.hold-btn {
+  --hold-duration: 1000ms;
+  --hold-progress-color: rgb(99 102 241 / 24%);
+  --hold-danger-color: rgb(239 68 68 / 24%);
+  --hold-success-color: rgb(34 197 94 / 24%);
+  --hold-indicator-color: #6366f1;
+  --hold-surface-color: Canvas;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: transform 100ms ease;
+}
+
+.hold-btn::after {
+  position: absolute;
+  z-index: 2;
+  top: -3px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--hold-indicator-color);
+  border-radius: 999px;
+  background: var(--hold-surface-color);
+  content: "";
+  pointer-events: none;
+}
+
+.hold-btn:active,
+.hold-btn.is-holding {
+  transform: scale(.97);
+}
+
+.hold-btn::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--hold-progress-color);
+  content: "";
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0ms;
+}
+
+.hold-btn.delete::before,
+.hold-btn[data-hold-variant="danger"]::before {
+  background: var(--hold-danger-color);
+}
+
+.hold-btn.addnew::before,
+.hold-btn[data-hold-variant="success"]::before {
+  background: var(--hold-success-color);
+}
+
+.hold-btn.is-holding::before {
+  transform: scaleX(1);
+  transition: transform var(--hold-duration) linear;
+}
+`;
+
+const STYLE_ATTRIBUTE = 'data-hold-to-confirm-styles';
+
+/**
+ * Add the default styles to a document once. This is called automatically by
+ * holdButton unless `injectStyles: false` is supplied.
+ */
+export function injectHoldButtonStyles(doc = globalThis.document) {
+  if (!doc?.createElement || !doc?.querySelector) return null;
+
+  const existing = doc.querySelector(`style[${STYLE_ATTRIBUTE}]`);
+  if (existing) return existing;
+
+  const style = doc.createElement('style');
+  style.setAttribute(STYLE_ATTRIBUTE, '');
+  style.textContent = holdButtonStyles;
+  (doc.head || doc.documentElement)?.append(style);
+  return style;
+}
